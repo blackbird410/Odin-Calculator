@@ -87,39 +87,73 @@ footer.appendChild(link);
 // -------------------------------------------------------------
 function operationSelection (op) {
     switch (op) {
-        case '+':
-            return 'Addition';
-        case '-':
-            return 'Substraction';
-        case '*':
-            return 'Multiplication';
-        case '/':
-            return 'Division';
-        case '%':
-            return 'Modulo';
         case '=':
-            return 'Equal';
+            let res = getResult();
+            inputField.value = res;
+            if (res.match(/(\d\.)/)) {
+                tampon = res;
+                numbers = [];
+                operations = [];
+            }
+            break;
         case 'AC':
-            clearInput();
+            clearAll();
             break;
         default:
-            alert('Invalid Operator');
+            operations.push(op);
+            clearInput();
             break;
     }
 }
 
 const clearInput = () => inputField.value = '';
+const clearAll =  () => {
+    clearInput();
+    numbers = [];
+    operations = [];
+    tampon = "";
+};
 
-
-
+function getResult() {
+    let result = numbers[0];
+    for (let i = 0; i < numbers.length - 1; i++) {
+        switch(operations[i]) {
+            case '+':
+                result += numbers[i+1];
+                break;
+            case '-':
+                result -= numbers[i+1];
+                break;
+            case '*':
+                result *= numbers[i+1];
+                break;
+            case '/':
+                if (numbers[i+1] !== 0) {
+                    result /= numbers[i+1];
+                } else {
+                    result = 'Haha :)';
+                }
+                break;
+            case '%':
+                result %= numbers[i+1];
+                break;
+        }
+    }
+    return result;
+}
 
 // -------------------------------------------------------------
+let numbers = [];
+let operations = [];
 // 1- Make the buttons add content to the input field
+
+let tampon = "";
 
 window.addEventListener('click', (e) => {
     if (e.target.className.match('button')) {
         if (e.target.innerText.match(/(\d|\.)/)) {
             inputField.value += e.target.innerText;
+            tampon += e.target.innerText;
         } else if (e.target.innerText === '+/-') {
             if (inputField.value.match(/-/)) {
                 inputField.value = inputField.value.slice(1);
@@ -127,27 +161,16 @@ window.addEventListener('click', (e) => {
                 inputField.value = '-' + inputField.value;
             }
         } else {
-            let operation = operationSelection(e.target.innerText);
+            if (tampon !== "") {
+                numbers.push(parseFloat(tampon));
+                tampon = "";
+            }
+        if (e.target.innerText !== '=') {
+            operationSelection(e.target.innerText);
+        } else {
+            if (numbers.length > 1) operationSelection(e.target.innerText);
+        }
+
         }
     }
 });
-
-
-
-
-
-
-
-
-
-// const clearInput = () => inputField.value = "";
-
-// let inputs = [];
-
-// function inputValue() {
-//     if (inputField.value !== "") {
-//         inputs.append(parseFloat(inputField.value));
-//     }
-//     clearInput();
-
-// }
