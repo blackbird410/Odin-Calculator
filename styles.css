@@ -47,6 +47,9 @@ body {
     height: 65px;
     background-color: #D4D4D2;
     border-radius: 12px;
+    text-align: right;
+    font-size: 22px;
+    font-weight: 800;
 }
 
 .rows {
@@ -86,8 +89,12 @@ body {
 }
 
 .zeroButton {
-    width: 128px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 112px;
     border-radius: 32px;
+    padding-left: 24px;
 }
 
 .footer {

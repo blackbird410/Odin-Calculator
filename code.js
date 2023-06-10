@@ -1,3 +1,5 @@
+// UI Design Start 
+// ------------------------------------------------------------
 const inputCont = document.createElement("div");
 const inputField = document.createElement("input");
 const rows = document.createElement("div");
@@ -10,12 +12,13 @@ const githubLogo = document.createElement('i');
 
 inputCont.className = "inputContainer";
 inputField.className = "inputField";
+inputField.readOnly = "readonly";
 rows.className = "rows";
 button.className = "button";
-zeroButton.className = "zeroButton";
-zeroButton.classList.add('button');
-yellowButtons.className = 'yellow';
-yellowButtons.classList.add('button');
+zeroButton.className = "button";
+zeroButton.classList.add('zeroButton');
+yellowButtons.className = 'button';
+yellowButtons.classList.add('yellow');
 link.className ='githubLink';
 githubLogo.className = 'fa';
 githubLogo.classList.add('fa-github');
@@ -65,6 +68,7 @@ function addButtonText() {
     let i = 0;
     nodes.forEach((node, i) => {
         node.textContent = texts[i];
+        node.dataset.key = texts[i];
         i += 1;
     });
 
@@ -77,3 +81,73 @@ generateButtons(rows, main);
 addButtonText();
 link.appendChild(githubLogo);
 footer.appendChild(link);
+
+// -------------------------------------------------------------
+// UI Design End
+// -------------------------------------------------------------
+function operationSelection (op) {
+    switch (op) {
+        case '+':
+            return 'Addition';
+        case '-':
+            return 'Substraction';
+        case '*':
+            return 'Multiplication';
+        case '/':
+            return 'Division';
+        case '%':
+            return 'Modulo';
+        case '=':
+            return 'Equal';
+        case 'AC':
+            clearInput();
+            break;
+        default:
+            alert('Invalid Operator');
+            break;
+    }
+}
+
+const clearInput = () => inputField.value = '';
+
+
+
+
+// -------------------------------------------------------------
+// 1- Make the buttons add content to the input field
+
+window.addEventListener('click', (e) => {
+    if (e.target.className.match('button')) {
+        if (e.target.innerText.match(/(\d|\.)/)) {
+            inputField.value += e.target.innerText;
+        } else if (e.target.innerText === '+/-') {
+            if (inputField.value.match(/-/)) {
+                inputField.value = inputField.value.slice(1);
+            } else {
+                inputField.value = '-' + inputField.value;
+            }
+        } else {
+            let operation = operationSelection(e.target.innerText);
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+// const clearInput = () => inputField.value = "";
+
+// let inputs = [];
+
+// function inputValue() {
+//     if (inputField.value !== "") {
+//         inputs.append(parseFloat(inputField.value));
+//     }
+//     clearInput();
+
+// }
