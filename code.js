@@ -60,7 +60,7 @@ function generateButtons(row, container) {
 
 function addButtonText() {
     let texts = [
-        'AC', '+/-', '%', '/',
+        'AC', 'CE', '%', '/',
         '7', '8', '9', '*',
         '4', '5', '6', '-', 
         '1', '2', '3', '+',
@@ -103,6 +103,9 @@ function operationSelection (op) {
         case 'AC':
             clearAll();
             break;
+        case 'CE':
+            clearInput();
+            break;
         default:
             operations.push(op);
             clearInput();
@@ -112,6 +115,7 @@ function operationSelection (op) {
 
 const clearInput = () => {
     inputField.value = '';
+    tampon = "";
 }
 const clearAll =  () => {
     clearInput();
@@ -162,13 +166,11 @@ window.addEventListener('click', (e) => {
         if (e.target.innerText.match(/(\d|\.)/)) {
             inputField.value += e.target.innerText;
             tampon += e.target.innerText;
-        } else if (e.target.innerText === '+/-') {
-            if (inputField.value.match(/-/)) {
-                inputField.value = inputField.value.slice(1);
-            } else {
-                inputField.value = '-' + inputField.value;
-            }
         } else {
+            if (e.target.innerText === 'CE') {
+                tampon = "";
+            }
+
             if (tampon !== "") {
                 numbers.push(parseFloat(tampon));
                 if (opText === "") {
@@ -182,7 +184,7 @@ window.addEventListener('click', (e) => {
 
             if (e.target.innerText !== '=') {
                 operationSelection(e.target.innerText);
-                if (e.target.innerText !== 'AC') {
+                if (e.target.innerText !== 'AC' && e.target.innerText !== 'CE') {
                     opText += " " + e.target.innerText;
                     opField.value = opText;
                 }
