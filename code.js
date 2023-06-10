@@ -2,6 +2,7 @@
 // ------------------------------------------------------------
 const inputCont = document.createElement("div");
 const inputField = document.createElement("input");
+const opField = document.createElement("input");
 const rows = document.createElement("div");
 const button = document.createElement("div");
 const zeroButton = document.createElement("div");
@@ -13,6 +14,8 @@ const githubLogo = document.createElement('i');
 inputCont.className = "inputContainer";
 inputField.className = "inputField";
 inputField.readOnly = "readonly";
+opField.className = "opField";
+opField.readOnly = "readonly";
 rows.className = "rows";
 button.className = "button";
 zeroButton.className = "button";
@@ -74,7 +77,7 @@ function addButtonText() {
 
 }
 // ----------------------------------------------------
-
+inputCont.appendChild(opField);
 inputCont.appendChild(inputField);
 main.appendChild(inputCont);
 generateButtons(rows, main);
@@ -88,12 +91,13 @@ footer.appendChild(link);
 function operationSelection (op) {
     switch (op) {
         case '=':
-            let res = getResult();
+            let res = getResult().toString();
             inputField.value = res;
-            if (res.match(/(\d\.)/)) {
+            if (res.match(/(\d|\.)/)) {
                 tampon = res;
                 numbers = [];
                 operations = [];
+                opText = "";
             }
             break;
         case 'AC':
@@ -106,12 +110,16 @@ function operationSelection (op) {
     }
 }
 
-const clearInput = () => inputField.value = '';
+const clearInput = () => {
+    inputField.value = '';
+}
 const clearAll =  () => {
     clearInput();
+    opField.value = '';
+    opText = "";
+    tampon = "";
     numbers = [];
     operations = [];
-    tampon = "";
 };
 
 function getResult() {
@@ -145,9 +153,9 @@ function getResult() {
 // -------------------------------------------------------------
 let numbers = [];
 let operations = [];
-// 1- Make the buttons add content to the input field
-
+let opText = "";
 let tampon = "";
+// 1- Make the buttons add content to the input field
 
 window.addEventListener('click', (e) => {
     if (e.target.className.match('button')) {
@@ -163,14 +171,24 @@ window.addEventListener('click', (e) => {
         } else {
             if (tampon !== "") {
                 numbers.push(parseFloat(tampon));
+                if (opText === "") {
+                    opText += tampon;
+                } else {
+                    opText += " " + tampon;
+                }
+                opField.value = opText;
                 tampon = "";
             }
-        if (e.target.innerText !== '=') {
-            operationSelection(e.target.innerText);
-        } else {
-            if (numbers.length > 1) operationSelection(e.target.innerText);
-        }
 
+            if (e.target.innerText !== '=') {
+                operationSelection(e.target.innerText);
+                if (e.target.innerText !== 'AC') {
+                    opText += " " + e.target.innerText;
+                    opField.value = opText;
+                }
+            } else {
+                if (numbers.length > 1) operationSelection(e.target.innerText);
+            }
         }
     }
 });
