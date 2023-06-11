@@ -13,14 +13,14 @@ body {
 
 .header {
     color: aliceblue;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 900;
 }
 
 .main {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     height: 512px;
-    width: 320px;
+    width: 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,6 +38,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 330px;
     height: 148px;
     border-radius: 12px;
     margin-bottom: 12px;
@@ -140,7 +141,7 @@ body {
     .inputContainer {
         height: 124px;
         margin-top: 42px;
-        margin-bottom: 42px;
+        margin-bottom: 32px;
     }
 
     .inputField {
@@ -149,6 +150,8 @@ body {
 
     .main {
         margin-bottom: 0;
+        height: 550px;
+        padding: 16px;
     }
 
     .footer {
